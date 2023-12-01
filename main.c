@@ -1,25 +1,46 @@
 
 #include <mlx.h>
+#include "includes/fdf.h"
+
+void init_struct(fdf *data)
+{
+	data->height = 0;
+	data->width = 0;
+	data->matrix = 0 ;
+
+}
+
 
 typedef struct	s_vars {
 	void	*mlx;
 	void	*win;
 }				t_vars;
 
-int	close(int keycode, t_vars *vars)
+int	mlxClose(int keycode, t_vars *vars)
 {
 	mlx_destroy_window(vars->mlx, vars->win);
 	return (0);
 }
 
-int	main(void)
+int	main(int argc ,char *argv[])
 {
-	t_vars	vars;
+	fdf data;
+	if(argc != 2)
+	{
+	write(1,"erreur",6);
+	return(0);
+	}
+	init_struct(&data);
+	read_file(argv[1] , &data);
+	printf("width : %d", data.width);
+	printf("height : %d" , data.height);
+	// t_vars	vars;
+	// vars.mlx = mlx_init();
+	// vars.win = mlx_new_window(vars.mlx, 1920, 1080, "FDF");
+	// mlx_hook(vars.win, 2, 1L<<0, close, &vars);
+	// mlx_loop(vars.mlx);
 
-	vars.mlx = mlx_init();
-	vars.win = mlx_new_window(vars.mlx, 1920, 1080, "FDF");
-	mlx_hook(vars.win, 2, 1L<<0, close, &vars);
-	mlx_hook()
-	mlx_loop(vars.mlx);
+
+
 }
 
