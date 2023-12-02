@@ -34,5 +34,7 @@ void	ft_bzero(void *str, size_t count);
 
 //######## read file ###########//
 void	read_file(char *file_name , fdf *data);
+char	**ft_split(char const *s, char c);
+int	ft_atoi(const char *str );
 
 #endif

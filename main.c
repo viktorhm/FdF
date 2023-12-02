@@ -32,8 +32,25 @@ int	main(int argc ,char *argv[])
 	}
 	init_struct(&data);
 	read_file(argv[1] , &data);
-	printf("width : %d", data.width);
-	printf("height : %d" , data.height);
+
+	printf("\nwidth : %d\n", data.width);
+	printf("height : %d \n" , data.height);
+
+	int i;
+	int j;
+
+	j = 0;
+	while(j < data.height)
+	{
+		i = 0;
+		while(i < data.width)
+		{
+			printf("-%d-",data.matrix[j][i]);
+			i++;
+		}
+		printf("\n");
+		j++;
+	}
 	// t_vars	vars;
 	// vars.mlx = mlx_init();
 	// vars.win = mlx_new_window(vars.mlx, 1920, 1080, "FDF");

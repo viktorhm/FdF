@@ -6,13 +6,14 @@
 /*   By: vharatyk <vharatyk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 11:31:33 by vharatyk          #+#    #+#             */
-/*   Updated: 2023/12/02 12:13:09 by vharatyk         ###   ########.fr       */
+/*   Updated: 2023/12/02 18:57:02 by vharatyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/fdf.h"
 #include "get_next_line.h"
 
+// gcc *.c -Lmlx-linux -lmlx_Linux -Imlx-linux -lXext -lX11 -lm
 
 int getSizeNb(char *ligne  )
 {
@@ -29,65 +30,74 @@ int getSizeNb(char *ligne  )
 }
 
 
-int get_height (char *file_name)
+int get_size (char *file_name , int *height , int *width)
 {
 	int fd;
-	int height;
-	char *line;
+	char *line ;
+	*height= 0;
+	*width = 0;
 
 	fd  = open(file_name , O_RDONLY , 0 );
-	if(fd == 0)
+	if(fd < 0)
+	{
 		write(1,"erreur",6);
-	height = 0 ;
+		exit(0);
+	}
+	line = get_next_line(fd);
+	*width = getSizeNb(line);
+	*height = *height+1;
+	free(line);
+	line = NULL ;
 	while(get_next_line(fd))
 	{
-		height++;
+		// test a rajouter
+		*height=*height+1;
 	}
 	close(fd);
-	return(height);
 
 }
 
-int get_width(char *file_nane)
+int fild_tab( int *matrix ,char *line)
 {
-	int fd ;
-	int width ;
-	char *ligne ;
-	int i = 0 ;
-	fd = open(file_nane , O_RDONLY , 0);
-	width = 0 ;
-	ligne = get_next_line(fd);
-	width =  getSizeNb(ligne);
-	free(ligne);
-	return(width);
+	char	**str;
+	int 	i;
+
+	i = 0;
+	str = ft_split(line , ' ');
+	while(str[i])
+	{
+		matrix[i] = ft_atoi(str[i]);
+		printf("%d",ft_atoi(str[i]));
+		free(str[i]);
+		i++ ;
+	}
+	printf("\n");
 
 }
 
 void read_file(char *file_name , fdf *data)
 {
-	int i = 0;
-	int element = 0 ;
-	char *ligne ;
+	int i;
+	int fd ;
+	char *line;
+	get_size( file_name, &data->height, &data->width );
 
-	data->height = get_height ( file_name);
-	data->width = get_width( file_name);
-	data->matrix = malloc(sizeof(int))*(data->height + 1);
-	while(i >= data->height)
-		data ->matrix[i] = malloc(sizeof(int) * data->width + 1);
 
-	fd = open(file_name, O_RDONLY ,0);
+	data->matrix = (int **)malloc(sizeof(int*) * (data->height+ 1));
 	i = 0;
-	
-	while(i >= data->height )
-	{
-		ligne = get_next_line(fd);
-		str_final = malloc(sizeof(char) * width);
-		while(ligne[i])
-		{
-			if()
-		}
-	}
+	while(i <= data->height)
+		data ->matrix[i++] = (int*)malloc(sizeof(int) * (30 + 1));
 
+	fd = open(file_name , O_RDONLY, 0);
+	i = 0;
+	while(i < data->height)
+	{
+		line = get_next_line(fd);
+		fild_tab(data->matrix[i], line);
+		free(line);
+		i++;
+	}
+	data->matrix[i] = NULL ;
 
 }
 
