@@ -6,7 +6,7 @@
 /*   By: vharatyk <vharatyk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 11:31:33 by vharatyk          #+#    #+#             */
-/*   Updated: 2023/12/02 18:57:02 by vharatyk         ###   ########.fr       */
+/*   Updated: 2023/12/04 12:13:24 by vharatyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int fild_tab( int *matrix ,char *line)
 
 }
 
-void read_file(char *file_name , fdf *data)
+void read_file(char *file_name , t_data *data)
 {
 	int i;
 	int fd ;

@@ -9,14 +9,18 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include <stdio.h>
+#include <mlx.h>
 
 typedef struct s_data
 {
 	int	width;
 	int	height;
 	int	**matrix;
+	void	*mlx;
+	void	*win;
 
-}fdf;
+}t_data;
+
 
 
 
@@ -33,8 +37,11 @@ char	*read_line(int fd, char *liste);
 void	ft_bzero(void *str, size_t count);
 
 //######## read file ###########//
-void	read_file(char *file_name , fdf *data);
+void	read_file(char *file_name , t_data *data);
 char	**ft_split(char const *s, char c);
 int	ft_atoi(const char *str );
+
+//####### drew ######## //
+void bresenham(float x , float y , float x1 , float y1 , t_data *data);
 
 #endif
