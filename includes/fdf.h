@@ -2,7 +2,7 @@
 # define FHF_H
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 10
+#  define BUFFER_SIZE 20
 # endif
 
 # include <unistd.h>
@@ -10,16 +10,25 @@
 # include <fcntl.h>
 # include <stdio.h>
 #include <mlx.h>
+#include <math.h>
 
 typedef struct s_data
 {
-	int	width;
-	int	height;
-	int	**matrix;
+	int		width;
+	int		height;
+	int		**matrix;
+
+	int		bits_per_pixel;
+	int		line_length;
+	int		endin;
+	int		line;
 	void	*mlx;
 	void	*win;
-
-}t_data;
+	void	*img;
+	void	*addr;
+	int		zoom;
+	int		color;
+}			t_data;
 
 
 
@@ -43,5 +52,7 @@ int	ft_atoi(const char *str );
 
 //####### drew ######## //
 void bresenham(float x , float y , float x1 , float y1 , t_data *data);
+int draw (t_data *data);
+void	zoom(float *x , float *y , float *x1 , float *y1 , t_data *data );
 
 #endif
