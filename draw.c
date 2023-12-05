@@ -6,7 +6,7 @@
 /*   By: vharatyk <vharatyk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/02 22:46:05 by vharatyk          #+#    #+#             */
-/*   Updated: 2023/12/04 19:10:49 by vharatyk         ###   ########.fr       */
+/*   Updated: 2023/12/05 12:44:43 by vharatyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,46 +38,103 @@ void isometrique(float *x , float *y , int z)
 
 }
 
-void bresenham(float x , float y , float x1 , float y1 ,t_data *data)
+// void bresenham(float x , float y , float x1 , float y1 ,t_data *data)
+// {
+// 	float x_step;
+// 	float y_step ;
+// 	int max ;
+// 	int z;
+// 	int z1;
+
+// 	z = data->matrix[(int)y][(int)x];
+// 	z1 = data->matrix[(int)y1][(int)x1];
+
+// 	x *= data->zoom;
+// 	y *= data->zoom;
+// 	x1 *= data->zoom;
+// 	y1 *= data->zoom;
+
+
+// 	isometrique(&x , &y , z);
+// 	isometrique(&x1 , &y1 , z1);
+
+// 	x += 150;
+// 	y += 150;
+// 	x1 += 150;
+// 	y1 += 150;
+
+
+// 	x_step = x1 - x ;
+// 	y_step = y1 - y ;
+
+// 	max = MAX(MOD(x_step),MOD(y_step));
+// 	x_step /= max;
+// 	y_step /= max;
+
+// 	while((int)(x-x1) || (int)(y - y1))
+// 	{
+// 		//printf("%f\n" ,x);
+// 		my_mlx_pixel_put(data , x, y, data->color);
+// 		x += x_step;
+// 		y += y_step;
+// 	}
+// }
+void bresenham(int *x1 , int *y1 , int *x2 , int *y2 ,t_data *data)
 {
-	float x_step;
-	float y_step ;
-	int max ;
-	int z;
-	int z1;
+	
+	int ex = abs(x2 - x1);
+	int ey = abs (y2 - y1);
+	int i = 0 ;
+	int Xincr =1;
+	int Yincr =1;
+	int dx = 2 * ex ;
+	int dy = 2 * ey ;
+	int Dx = ex ;
+	int Dy = ey ;
 
-	z = data->matrix[(int)y][(int)x];
-	z1 = data->matrix[(int)y1][(int)x1];
+ 	*x1 *= data->zoom;
+ 	*y1 *= data->zoom;
+ 	*x2 *= data->zoom;
+ 	*y2 *= data->zoom;
 
-	x *= data->zoom;
-	y *= data->zoom;
-	x1 *= data->zoom;
-	y1 *= data->zoom;
+	if(*x1>*x2)
+		Xincr = -1;
+	if(*y1>*y2)
+		Yincr = -1;
 
-
-	isometrique(&x , &y , z);
-	isometrique(&x1 , &y1 , z1);
-
-	x += 150;
-	y += 150;
-	x1 += 150;
-	y1 += 150;
-
-
-	x_step = x1 - x ;
-	y_step = y1 - y ;
-
-	max = MAX(MOD(x_step),MOD(y_step));
-	x_step /= max;
-	y_step /= max;
-
-	while((int)(x-x1) || (int)(y - y1))
+	if(Dx > Dy)
 	{
-		//printf("%f\n" ,x);
-		my_mlx_pixel_put(data , x, y, data->color);
-		x += x_step;
-		y += y_step;
+		while (i<=Dx)
+		{
+				my_mlx_pixel_put(data , x1, y1, data->color);
+				i++;
+				*x1 += Xincr;
+				ex -=dy;
+			
+			if(ex < 0)
+			{
+				*y1 += Yincr ;
+				ex += dx;
+			}
+		}
 	}
+	if(Dy > Dx)
+	{
+		while (i<=Dy)
+		{
+				my_mlx_pixel_put(data , x1, y1, data->color);
+				i++;
+				*y1 += Yincr;
+				ey -=dx;
+			
+			if(ey < 0)
+			{
+				*x1 += Xincr ;
+				ey += dy;
+			}
+		}
+	}
+
 }
 
 int draw (t_data *data)
@@ -90,9 +147,9 @@ int draw (t_data *data)
 		while(data->width > x)
 		{
 			if(x < data->width -1)
-				bresenham(x , y , x+1 , y, data);
+				bresenham(&x , &y , &x+1 , &y, data);
 			if(y < data->height -1)
-				bresenham(x , y , x , y+1 ,data);
+				bresenham(&x , &y , &x , &y+1 ,data);
 			x++;
 		}
 	y++;

@@ -51,7 +51,7 @@ char	**ft_split(char const *s, char c);
 int	ft_atoi(const char *str );
 
 //####### drew ######## //
-void bresenham(float x , float y , float x1 , float y1 , t_data *data);
+void bresenham(int *x1 , int *y1 , int *x2 , int *y2 ,t_data *data);
 int draw (t_data *data);
 void	zoom(float *x , float *y , float *x1 , float *y1 , t_data *data );
 
