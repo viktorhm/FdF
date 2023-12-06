@@ -6,7 +6,7 @@
 /*   By: vharatyk <vharatyk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/02 22:46:05 by vharatyk          #+#    #+#             */
-/*   Updated: 2023/12/05 15:56:43 by vharatyk         ###   ########.fr       */
+/*   Updated: 2023/12/06 22:34:49 by vharatyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,13 @@ void bresenham(float x1 , float y1 , float x2 , float y2 ,t_data *data)
 	x2 *= data->zoom;
 	y2 *= data->zoom;
 
-	printf("%d " , z);
 	isometrique(&x1 , &y1 , z);
 	isometrique(&x2 , &y2 , z1);
 
-	x1 += 500; // gauche
-	y1 += 300; // haut
-	x2 += 500;
-	y2 += 300;
-
+	x1 += data->controlx; // gauche
+	y1 += data->controly; // haut
+	x2 += data->controlx;
+	y2 += data->controly;
 
 	x_step = x2 - x1 ;
 	y_step = y2 - y1 ;
@@ -73,8 +71,8 @@ void bresenham(float x1 , float y1 , float x2 , float y2 ,t_data *data)
 
 	while((int)(x1 - x2) || (int)(y1 - y2))
 	{
-
-		my_mlx_pixel_put(data , x1, y1, data->color);
+		if( (x1 < data->wx  && x1 > 0) && (y1 < data->wx  && y1 > 0))
+			my_mlx_pixel_put(data , x1, y1, data->color);
 		x1 += x_step;
 		y1 += y_step;
 	}

@@ -30,6 +30,10 @@ typedef struct s_data
 	int		color;
 	int		max ;
 	int		min ;
+	int		wx;
+	int		wy;
+	int		controlx;
+	int		controly;
 }			t_data;
 
 
