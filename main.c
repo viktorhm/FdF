@@ -7,7 +7,7 @@ void init_struct(t_data *data)
 	data->height = 0;
 	data->width = 0;
 	data->matrix = 0 ;
-	data->zoom = 20;
+	data->zoom = 10;
 	data->color =  0xffffff;
 }
 
@@ -53,7 +53,7 @@ int	main(int argc ,char *argv[])
 		i = 0;
 		while(i < data.width)
 		{
-			printf("-%d-",data.matrix[j][i]);
+			printf("%d ",data.matrix[j][i]);
 			i++;
 		}
 		printf("\n");
@@ -61,10 +61,9 @@ int	main(int argc ,char *argv[])
 	}
 
 	data.mlx = mlx_init();
-	data.win = mlx_new_window(data.mlx, 600, 600, "FDF");
-	data.img = mlx_new_image(data.mlx , 600 , 600);
+	data.win = mlx_new_window(data.mlx, 1920, 1080, "FDF");
+	data.img = mlx_new_image(data.mlx , 1920 , 1080);
 	data.addr = mlx_get_data_addr(data.img , &data.bits_per_pixel ,&data.line_length , &data.endin );
-
 
 	draw(&data);
 

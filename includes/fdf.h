@@ -28,6 +28,8 @@ typedef struct s_data
 	void	*addr;
 	int		zoom;
 	int		color;
+	int		max ;
+	int		min ;
 }			t_data;
 
 
@@ -51,7 +53,7 @@ char	**ft_split(char const *s, char c);
 int	ft_atoi(const char *str );
 
 //####### drew ######## //
-void bresenham(int *x1 , int *y1 , int *x2 , int *y2 ,t_data *data);
+void bresenham(float x1 , float y1 , float x2 , float y2 ,t_data *data);
 int draw (t_data *data);
 void	zoom(float *x , float *y , float *x1 , float *y1 , t_data *data );
 

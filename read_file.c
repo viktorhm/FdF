@@ -6,7 +6,7 @@
 /*   By: vharatyk <vharatyk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 11:31:33 by vharatyk          #+#    #+#             */
-/*   Updated: 2023/12/04 12:13:24 by vharatyk         ###   ########.fr       */
+/*   Updated: 2023/12/06 13:53:03 by vharatyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,21 +57,27 @@ int get_size (char *file_name , int *height , int *width)
 
 }
 
-int fild_tab( int *matrix ,char *line)
+
+int fild_tab( int *matrix ,char *line ,int min , int max )
 {
 	char	**str;
 	int 	i;
 
-	i = 0;
+	max = 0;
+	min = 0;
+	i = 0 ;
 	str = ft_split(line , ' ');
 	while(str[i])
 	{
 		matrix[i] = ft_atoi(str[i]);
-		printf("%d",ft_atoi(str[i]));
+
+		if(min < matrix[i])
+			min = matrix[i] ;
+		if(max > matrix[i])
+			max = matrix[i] ;
 		free(str[i]);
 		i++ ;
 	}
-	printf("\n");
 
 }
 
@@ -88,14 +94,16 @@ void read_file(char *file_name , t_data *data)
 	while(i <= data->height)
 		data ->matrix[i++] = (int*)malloc(sizeof(int) * (30 + 1));
 
+
 	fd = open(file_name , O_RDONLY, 0);
 	i = 0;
 	while(i < data->height)
 	{
 		line = get_next_line(fd);
-		fild_tab(data->matrix[i], line);
+		fild_tab(data->matrix[i], line  , data->min , data->max);
 		free(line);
 		i++;
+		printf("{%d}",data->max);
 	}
 	data->matrix[i] = NULL ;
 
