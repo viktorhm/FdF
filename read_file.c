@@ -6,7 +6,7 @@
 /*   By: vharatyk <vharatyk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 11:31:33 by vharatyk          #+#    #+#             */
-/*   Updated: 2023/12/06 13:53:03 by vharatyk         ###   ########.fr       */
+/*   Updated: 2023/12/07 14:59:44 by vharatyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void read_file(char *file_name , t_data *data)
 		fild_tab(data->matrix[i], line  , data->min , data->max);
 		free(line);
 		i++;
-		printf("{%d}",data->max);
+		//printf("{%d}",data->max);
 	}
 	data->matrix[i] = NULL ;
 

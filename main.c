@@ -7,10 +7,10 @@ void init_struct(t_data *data)
 	data->height = 0;
 	data->width = 0;
 	data->matrix = 0 ;
-	data->zoom = 10;
+	data->zoom = 20;
 	data->color =  0xffffff;
-	data->wx = 400 ;
-	data->wy = 200 ;
+	data->wx = 1000 ;
+	data->wy = 500 ;
 	data->controlx = 50 ;
 	data->controly =50 ;
 }
@@ -29,47 +29,40 @@ int	mlxClose(int keycode, t_data *vars)
 	return (0);
 }
 
+int event(t_data *data)
+{
+	data->img = mlx_new_image(data->mlx , data->wx , data->wy);
+	data->addr = mlx_get_data_addr(data->img , &data->bits_per_pixel ,&data->line_length , &data->endin );
+	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
+	draw(data);
+	mlx_destroy_image(data->mlx, data->img);
+}
 
 int control(int key , t_data *data)
 {
-	printf("-%d-", key);
-	if(key == 65362 || key == 32)//up
-	{
-		data->controly =+ 5;
-		printf("up");
-	}
-
-	if(key == 65361 )//gauche
-		data->controlx =- 5;
-
-	if(key == 65364 )// down
-		data->controly =+ 5 ;
-
-	if(key == 65363)//droit
-		data->controlx =+5  ;
-
-	draw(data);
+	if(key == 'w')
+		data->controly -= 5;
+	if(key == 'a' )//gauche
+		data->controlx -= 5;
+	if(key == 's' )// down
+		data->controly += 5;
+	if(key == 'd')//droit
+		data->controlx += 5;
+	if(key == 65307)
+		mlx_destroy_window(data->mlx, data->win);
+		printf("%d\n", key);
+	event(data);
 	return(0);
 }
 
-int	main(int argc ,char *argv[])
+int etat(t_data data)
 {
-	t_data data;
-
-	if(argc != 2)
-	{
-	write(1,"erreur",6);
-	return(0);
-	}
-
-	init_struct(&data);
-	read_file(argv[1] , &data);
+	int i;
+	int j;
 
 	printf("\nwidth : %d\n", data.width);
 	printf("height : %d \n" , data.height);
 
-	int i;
-	int j;
 
 	j = 0;
 	while(j < data.height)
@@ -83,20 +76,34 @@ int	main(int argc ,char *argv[])
 		printf("\n");
 		j++;
 	}
+}
+
+int	main(int argc ,char *argv[])
+{
+	t_data data;
+
+	if(argc != 2)
+	{
+	printf("erreur");
+	return(0);
+	}
+
+	init_struct(&data);
+	read_file(argv[1] , &data);
 
 	data.mlx = mlx_init();
-
 	data.win = mlx_new_window(data.mlx, data.wx, data.wy , "FDF");
-
-	data.img = mlx_new_image(data.mlx , data.wx , data.wy);
-	data.addr = mlx_get_data_addr(data.img , &data.bits_per_pixel ,&data.line_length , &data.endin );
-	mlx_key_hook(data.win , control , &data);
-	//draw(&data);
-	mlx_put_image_to_window(data.mlx, data.win, data.img, 0, 0);
-
-
-	
+	// while(1)
+	// {
+	// 	usleep(200);
+	// 	data.img = mlx_new_image(data.mlx , data.wx , data.wy);
+	// 	data.addr = mlx_get_data_addr(data.img , &data.bits_per_pixel ,&data.line_length , &data.endin );
+	// 	event(&data);
+	// 	mlx_put_image_to_window(data.mlx, data.win, data.img, 0, 0);
+	// 	mlx_destroy_image(data.mlx, data.img);
+	// }
 	//mlx_hook(data.win, 2, 17, mlxClose, &data);
+	mlx_key_hook(data.win , control, &data);
 	mlx_loop(data.mlx);
 
 	return(0);
