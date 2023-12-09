@@ -6,11 +6,11 @@
 /*   By: vharatyk <vharatyk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/05 15:22:52 by vharatyk          #+#    #+#             */
-/*   Updated: 2023/11/14 10:32:28 by vharatyk         ###   ########.fr       */
+/*   Updated: 2023/12/09 15:38:13 by vharatyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "includes/fdf.h"
 
 void	ft_bzero(void *str, size_t count)
 {

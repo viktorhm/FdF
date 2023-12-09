@@ -17,16 +17,9 @@ void init_struct(t_data *data)
 }
 
 
-// typedef struct	s_mlx {
-// 	void	*mlx;
-// 	void	*win;
-// }				t_mlx;
-
-
-
 int	mlxClose(int keycode, t_data *data)
 {
-	//mlx_destroy_image(data->mlx, data->img);
+	mlx_destroy_image(data->mlx, data->img);
 	mlx_destroy_window(data->mlx, data->win);
 	return (0);
 }
@@ -35,13 +28,12 @@ int event(t_data *data)
 {
 	data->img = mlx_new_image(data->mlx , data->wx , data->wy);
 	data->addr = mlx_get_data_addr(data->img , &data->bits_per_pixel ,&data->line_length , &data->endin );
-	
 	draw(data);
 	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
 	mlx_destroy_image(data->mlx, data->img);
 	write(1,"e",1);
 }
- 
+
 int control(int key , t_data *data)
 {
 	if(key == 'w')
@@ -57,9 +49,9 @@ int control(int key , t_data *data)
 	if(key == '=')
 		data->zoom += 2 ;
 	if(key == ']')
-		data->angle += 0,2 ;
+		data->angle += 1 ;
 	if(key == '[')
-		data->angle += 0,2 ;
+		data->angle -= 1 ;
 	if(key == 65307)
 		mlx_destroy_window(data->mlx, data->win);
 	else
@@ -74,7 +66,7 @@ int etat(t_data data)
 
 	printf("\nwidth : %d\n", data.width);
 	printf("height : %d \n" , data.height);
-
+	printf("color min : %d , max : %d \n" , data.min , data.max);
 
 	j = 0;
 	while(j < data.height)
@@ -101,16 +93,18 @@ int	main(int argc ,char *argv[])
 	}
 
 	init_struct(&data);
-	
+
 	read_file(argv[1] , &data);
 
-	// etat(data);
-	// data.mlx = mlx_init();
-	// data.win = mlx_new_window(data.mlx, data.wx, data.wy , "FDF");
-	// event(&data);
-	// mlx_hook(data.win , 2 , 1L<<0 ,control,&data );
-	// mlx_hook(data.win , 17 ,1L<<5 , mlxClose , &data);
-	// mlx_loop(data.mlx);
+	etat(data);
+	data.mlx = mlx_init();
+	data.win = mlx_new_window(data.mlx, data.wx, data.wy , "FDF");
+	event(&data);
+	mlx_hook(data.win , 2 , 1L<<0 ,control,&data );
+	mlx_hook(data.win , 17 ,1L<<5 , mlxClose , &data);
+	mlx_loop(data.mlx);
+
+	printf("END ?");
 
 	return(0);
 }

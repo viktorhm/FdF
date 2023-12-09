@@ -2,7 +2,7 @@
 # define FHF_H
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 300
+#  define BUFFER_SIZE 10
 # endif
 
 # include <unistd.h>
@@ -37,6 +37,11 @@ typedef struct s_data
 	float 	angle;
 }			t_data;
 
+typedef struct s_cord
+{
+	float
+}	t_cord;
+
 
 
 
@@ -60,6 +65,5 @@ int	ft_atoi(const char *str );
 //####### drew ######## //
 void bresenham(float x1 , float y1 , float x2 , float y2 ,t_data *data);
 int draw (t_data *data);
-void	zoom(float *x , float *y , float *x1 , float *y1 , t_data *data );
-
+void	zoom(float *x , float *y , float *x1 , float *y1 , int *z , int *z1 , t_data *data );
 #endif

@@ -6,7 +6,7 @@
 /*   By: vharatyk <vharatyk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/02 22:46:05 by vharatyk          #+#    #+#             */
-/*   Updated: 2023/12/08 14:09:30 by vharatyk         ###   ########.fr       */
+/*   Updated: 2023/12/09 18:36:30 by vharatyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,24 @@ int	create_trgb(int t, int r, int g, int b)
 	return (t << 24 | r << 16 | g << 8 | b);
 }
 
-void	zoom(float *x , float *y , float *x1 , float *y1 , t_data *data )
+
+
+void	zoom(float *x , float *y , float *x1 , float *y1 , int *z , int *z1 , t_data *data )
 {
 *x *= data->zoom;
 *y *= data->zoom;
 *x1 *= data->zoom;
 *y1 *= data->zoom;
+*z *= data->zoom;
+*z1 *= data->zoom;
 
 }
 void isometrique(float *x , float *y , int z , t_data *data)
 {
-	*x = (*x - *y) * cos(0.6) ;
-	*y = (*x + *y) * sin(data->angle)- z ;
+
+	*x = (*x - *y) * cos(data->angle) ;
+	*y = (*x + *y) * sin(1)- z ;
+
 
 }
 void mouve(float *x1 , float *y1 , float *x2 , float *y2 ,t_data *data)
@@ -48,6 +54,17 @@ void mouve(float *x1 , float *y1 , float *x2 , float *y2 ,t_data *data)
 	*y1 += data->controly; // haut
 	*x2 += data->controlx;
 	*y2 += data->controly;
+}
+
+void color(t_data *data)
+{
+	if(z >= 3)
+		data->color = create_trgb(00, 40, 0, 0);
+	if(z1 >= 3)
+		data->color = create_trgb(00, 40, 0, 0);
+	else
+		data->color = create_trgb(00, 100, 100, 100);
+
 }
 
 void bresenham(float x1 , float y1 , float x2 , float y2 ,t_data *data)
@@ -61,17 +78,12 @@ void bresenham(float x1 , float y1 , float x2 , float y2 ,t_data *data)
 	z = data->matrix[(int)y1][(int)x1];
 	z1 = data->matrix[(int)y2][(int)x2];
 
-	zoom(&x1 , &y1 , &x2 , &y2 , data);
+	zoom(&x1 , &y1 , &x2 , &y2 ,&z , &z1 ,data);
 
 	isometrique(&x1 , &y1 , z , data);
 	isometrique(&x2 , &y2 , z1, data);
 
-	if(z >= 3)
-		data->color = create_trgb(00, 40, 0, 0);
-	if(z1 >= 3)
-		data->color = create_trgb(00, 40, 0, 0);
-	else
-		data->color = create_trgb(00, 100, 100, 100);
+
 
 	mouve(&x1 , &y1 , &x2 , &y2 , data);
 

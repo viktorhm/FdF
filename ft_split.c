@@ -6,15 +6,11 @@
 /*   By: vharatyk <vharatyk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 12:41:09 by vharatyk          #+#    #+#             */
-/*   Updated: 2023/12/02 15:49:19 by vharatyk         ###   ########.fr       */
+/*   Updated: 2023/12/09 15:38:58 by vharatyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <stddef.h>
-#include"get_next_line.h"
+#include "includes/fdf.h"
 
 static int	nb_mots(const char *str, char c)
 {
