@@ -2,7 +2,7 @@
 # define FHF_H
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 20
+#  define BUFFER_SIZE 300
 # endif
 
 # include <unistd.h>
@@ -34,6 +34,7 @@ typedef struct s_data
 	int		wy;
 	int		controlx;
 	int		controly;
+	float 	angle;
 }			t_data;
 
 

@@ -13,6 +13,7 @@ void init_struct(t_data *data)
 	data->wy = 500 ;
 	data->controlx = 50 ;
 	data->controly =50 ;
+	data->angle = 0.8;
 }
 
 
@@ -23,9 +24,10 @@ void init_struct(t_data *data)
 
 
 
-int	mlxClose(int keycode, t_data *vars)
+int	mlxClose(int keycode, t_data *data)
 {
-	mlx_destroy_window(vars->mlx, vars->win);
+	//mlx_destroy_image(data->mlx, data->img);
+	mlx_destroy_window(data->mlx, data->win);
 	return (0);
 }
 
@@ -33,25 +35,35 @@ int event(t_data *data)
 {
 	data->img = mlx_new_image(data->mlx , data->wx , data->wy);
 	data->addr = mlx_get_data_addr(data->img , &data->bits_per_pixel ,&data->line_length , &data->endin );
-	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
+	
 	draw(data);
+	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
 	mlx_destroy_image(data->mlx, data->img);
+	write(1,"e",1);
 }
-
+ 
 int control(int key , t_data *data)
 {
 	if(key == 'w')
-		data->controly -= 5;
+		data->controly -= 10;
 	if(key == 'a' )//gauche
-		data->controlx -= 5;
+		data->controlx -= 10;
 	if(key == 's' )// down
-		data->controly += 5;
+		data->controly += 10;
 	if(key == 'd')//droit
-		data->controlx += 5;
+		data->controlx += 10;
+	if(key == '-')
+		data->zoom -= 2 ;
+	if(key == '=')
+		data->zoom += 2 ;
+	if(key == ']')
+		data->angle += 0,2 ;
+	if(key == '[')
+		data->angle += 0,2 ;
 	if(key == 65307)
 		mlx_destroy_window(data->mlx, data->win);
-		printf("%d\n", key);
-	event(data);
+	else
+		event(data);
 	return(0);
 }
 
@@ -89,22 +101,16 @@ int	main(int argc ,char *argv[])
 	}
 
 	init_struct(&data);
+	
 	read_file(argv[1] , &data);
 
-	data.mlx = mlx_init();
-	data.win = mlx_new_window(data.mlx, data.wx, data.wy , "FDF");
-	// while(1)
-	// {
-	// 	usleep(200);
-	// 	data.img = mlx_new_image(data.mlx , data.wx , data.wy);
-	// 	data.addr = mlx_get_data_addr(data.img , &data.bits_per_pixel ,&data.line_length , &data.endin );
-	// 	event(&data);
-	// 	mlx_put_image_to_window(data.mlx, data.win, data.img, 0, 0);
-	// 	mlx_destroy_image(data.mlx, data.img);
-	// }
-	//mlx_hook(data.win, 2, 17, mlxClose, &data);
-	mlx_key_hook(data.win , control, &data);
-	mlx_loop(data.mlx);
+	// etat(data);
+	// data.mlx = mlx_init();
+	// data.win = mlx_new_window(data.mlx, data.wx, data.wy , "FDF");
+	// event(&data);
+	// mlx_hook(data.win , 2 , 1L<<0 ,control,&data );
+	// mlx_hook(data.win , 17 ,1L<<5 , mlxClose , &data);
+	// mlx_loop(data.mlx);
 
 	return(0);
 }

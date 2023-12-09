@@ -6,7 +6,7 @@
 /*   By: vharatyk <vharatyk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 11:31:33 by vharatyk          #+#    #+#             */
-/*   Updated: 2023/12/07 14:59:44 by vharatyk         ###   ########.fr       */
+/*   Updated: 2023/12/08 15:30:24 by vharatyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ int getSizeNb(char *ligne  )
 	int value = 0;
 	while(ligne[i])
 	{
-	if(ligne[i]>='0' && ligne[i]<='9')
+	if(ligne[i]>='0' && ligne[i]<='9' || ligne[i] >= 'a' 
+	&& ligne[i] <= 'z' || ligne[i] >= 'A' && ligne[i] <= 'Z' )
 		if(ligne[i+1]==' ' || ligne[i+1]=='\n' || ligne[i+1]== '\0')
 			value++;
 	i++;
@@ -40,7 +41,7 @@ int get_size (char *file_name , int *height , int *width)
 	fd  = open(file_name , O_RDONLY , 0 );
 	if(fd < 0)
 	{
-		write(1,"erreur",6);
+		write(1,"erreur_load-fichier",20);
 		exit(0);
 	}
 	line = get_next_line(fd);
@@ -50,7 +51,6 @@ int get_size (char *file_name , int *height , int *width)
 	line = NULL ;
 	while(get_next_line(fd))
 	{
-		// test a rajouter
 		*height=*height+1;
 	}
 	close(fd);
@@ -71,11 +71,7 @@ int fild_tab( int *matrix ,char *line ,int min , int max )
 	{
 		matrix[i] = ft_atoi(str[i]);
 
-		if(min < matrix[i])
-			min = matrix[i] ;
-		if(max > matrix[i])
-			max = matrix[i] ;
-		free(str[i]);
+		//free(str[i]);
 		i++ ;
 	}
 
@@ -88,24 +84,30 @@ void read_file(char *file_name , t_data *data)
 	char *line;
 	get_size( file_name, &data->height, &data->width );
 
+	printf("%d , %d" , data->height ,data->width);
 
-	data->matrix = (int **)malloc(sizeof(int*) * (data->height+ 1));
+	data->matrix = malloc(sizeof(int) * (data->height+ 1));
 	i = 0;
 	while(i <= data->height)
-		data ->matrix[i++] = (int*)malloc(sizeof(int) * (30 + 1));
+		data ->matrix[i++] = malloc(sizeof(int) * (data->width + 1));
 
 
 	fd = open(file_name , O_RDONLY, 0);
-	i = 0;
-	while(i < data->height)
+	if(fd < 0)
 	{
-		line = get_next_line(fd);
-		fild_tab(data->matrix[i], line  , data->min , data->max);
-		free(line);
-		i++;
-		//printf("{%d}",data->max);
+		write(1,"erreur_load-fichier",20);
+		exit(0);
 	}
-	data->matrix[i] = NULL ;
+	i = 0;
+	
+	get_next_line(fd);
+	close(fd);
+	// 	fild_tab(data->matrix[i], line  , data->min , data->max);
+	// 	//free(line);
+	 	i++;
+	// 	//printf("{%d}",data->max);
+	 
+	// data->matrix[i] = NULL ;
 
 }
 

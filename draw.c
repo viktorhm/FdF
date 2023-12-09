@@ -6,7 +6,7 @@
 /*   By: vharatyk <vharatyk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/02 22:46:05 by vharatyk          #+#    #+#             */
-/*   Updated: 2023/12/07 17:18:34 by vharatyk         ###   ########.fr       */
+/*   Updated: 2023/12/08 14:09:30 by vharatyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ void	zoom(float *x , float *y , float *x1 , float *y1 , t_data *data )
 *y1 *= data->zoom;
 
 }
-void isometrique(float *x , float *y , int z)
+void isometrique(float *x , float *y , int z , t_data *data)
 {
-	*x = (*x - *y) * cos(0.8) ;
-	*y = (*x + *y) * sin(0.8)- z ;
+	*x = (*x - *y) * cos(0.6) ;
+	*y = (*x + *y) * sin(data->angle)- z ;
 
 }
 void mouve(float *x1 , float *y1 , float *x2 , float *y2 ,t_data *data)
@@ -63,8 +63,9 @@ void bresenham(float x1 , float y1 , float x2 , float y2 ,t_data *data)
 
 	zoom(&x1 , &y1 , &x2 , &y2 , data);
 
-	isometrique(&x1 , &y1 , z);
-	isometrique(&x2 , &y2 , z1);
+	isometrique(&x1 , &y1 , z , data);
+	isometrique(&x2 , &y2 , z1, data);
+
 	if(z >= 3)
 		data->color = create_trgb(00, 40, 0, 0);
 	if(z1 >= 3)
@@ -83,7 +84,7 @@ void bresenham(float x1 , float y1 , float x2 , float y2 ,t_data *data)
 
 	while((int)(x1 - x2) || (int)(y1 - y2))
 	{
-		if( (x1 < data->wx  && x1 > 0) && (y1 < data->wx  && y1 > 0))
+		if(((int)x1 < data->wx  && (int)x1 > 0) && ((int)y1 < data->wy  && (int)y1 > 0))
 			my_mlx_pixel_put(data , x1, y1, data->color);
 		x1 += x_step;
 		y1 += y_step;
