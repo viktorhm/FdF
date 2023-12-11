@@ -6,106 +6,105 @@
 /*   By: vharatyk <vharatyk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 11:31:33 by vharatyk          #+#    #+#             */
-/*   Updated: 2023/12/11 16:59:47 by vharatyk         ###   ########.fr       */
+/*   Updated: 2023/12/11 19:02:19 by vharatyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
 
-
-// gcc *.c -Lmlx-linux -lmlx_Linux -Imlx-linux -lXext -lX11 -lm
-
-int getSizeNb(char *ligne  )
+int	get_size_nb(char *ligne)
 {
-	int i = 0 ;
-	int value = 0;
-	while(ligne[i])
-	{
-	if((ligne[i]>='0' && ligne[i]<='9') || (ligne[i] >= 'a'
-	&& ligne[i] <= 'z') || (ligne[i] >= 'A' && ligne[i] <= 'Z') )
-		if(ligne[i+1]==' ' || ligne[i+1]=='\n' || ligne[i+1]== '\0')
-			value++;
+	int	i;
+	int	value;
 
-	i++;
+	i = 0;
+	value = 0;
+	while (ligne[i])
+	{
+		if ((ligne[i] >= '0' && ligne[i] <= '9') || (ligne[i] >= 'a'
+				&& ligne[i] <= 'z') || (ligne[i] >= 'A' && ligne[i] <= 'Z'))
+		{
+			if (ligne[i + 1] == ' ' || ligne[i + 1] == '\n'
+				|| ligne[i + 1] == '\0')
+				value++;
+		}
+		i++ ;
 	}
 	free(ligne);
-	return(value);
+	return (value);
 }
 
-
-int get_size (char *file_name , t_data *data)
+int	get_size(char *file_name, t_data *data)
 {
-	int fd;
-	char *line ;
-	line = NULL;
+	char	*line ;
+	int		fd;
 
-	fd  = open(file_name , O_RDONLY , 0 );
-	if(fd < 0)
+	line = NULL;
+	fd = open(file_name, O_RDONLY, 0);
+	if (fd < 0)
 	{
-		write(1,"erreur_load-fichier",20);
+		write(1, "erreur_load-fichier", 20);
 		exit(0);
 	}
 	line = get_next_line(fd);
-	data->width = getSizeNb(line);
+	data->width = get_size_nb(line);
 	data->height = data->height + 1;
-	while ((line = get_next_line(fd)))
+	while (1)
 	{
+		line = get_next_line(fd);
+		if (line == NULL)
+			break ;
 		data->height = data->height + 1;
 		free(line);
 	}
 	close(fd);
 	free(line);
 	line = NULL ;
-	return(0);
+	return (0);
 }
 
-
-int fild_tab( int *matrix ,char *line ,t_data *data)
+int	fild_tab( int *matrix, char *line, t_data *data)
 {
 	char	**str;
-	int 	i;
+	int		i;
 
 	i = 0 ;
-	str = NULL ;
-	str = ft_split(line , ' ');
-	while(str[i])
+	str = NULL;
+	str = ft_split(line, ' ');
+	while (str[i])
 	{
 		matrix[i] = ft_atoi(str[i]);
-		if(matrix[i] > data->max)
+		if (matrix[i] > data->max)
 			data->max = matrix[i];
-		if(matrix[i] < data->min)
-			data->min =matrix[i];
+		if (matrix[i] < data->min)
+			data->min = matrix[i];
 		free(str[i]);
 		i++ ;
 	}
 	free(str);
-	//free(line);
-	return(0);
+	return (0);
 }
 
-void read_file(char *file_name , t_data *data)
+void	read_file(char *file_name, t_data *data)
 {
-	int i;
-	int fd ;
-	char *line;
-	get_size( file_name, data );
+	char	*line;
+	int		i;
+	int		fd;
 
-
-	data->matrix = (int **)malloc(sizeof(int*) * (data->height + 1));
+	get_size(file_name, data);
+	data->matrix = (int **)malloc(sizeof(int *) * (data->height + 1));
 	i = 0;
-	while(i < data->height)
-		data ->matrix[i++] = (int*)malloc(sizeof(int) * (data->width + 1));
-
-	fd = open(file_name , O_RDONLY, 0);
+	while (i < data->height)
+		data ->matrix[i++] = (int *)malloc(sizeof(int) * (data->width + 1));
+	fd = open(file_name, O_RDONLY, 0);
 	i = 0;
-	while(i < data->height)
+	while (i < data->height)
 	{
 		line = get_next_line(fd);
-		fild_tab(data->matrix[i], line  , data);
+		fild_tab(data->matrix[i], line, data);
 		free(line);
 		line = NULL ;
 		i++;
-		//printf("{%d}",data->max);
 	}
 	free(line);
 	data->matrix[i] = NULL ;
