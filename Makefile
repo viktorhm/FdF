@@ -1,30 +1,60 @@
-NAME	:= Game
-CFLAGS	:= -Wextra -Wall -Werror -Wunreachable-code -Ofast
-LIBMLX	:= ./lib/MLX42
+### COMPILATION ###
+CC      = gcc 
+FLAGS  = -Wall -Werror
 
-HEADERS	:= -I ./include -I $(LIBMLX)/include
-LIBS	:= $(LIBMLX)/build/libmlx42.a -ldl -lglfw -pthread -lm
-SRCS	:= $(shell find ./src -iname "*.c")
-OBJS	:= ${SRCS:.c=.o}
+### EXECUTABLE ###
+NAME   = fdf
 
-all: libmlx $(NAME)
+### INCLUDES ###
 
-libmlx:
-	@cmake $(LIBMLX) -B $(LIBMLX)/build && make -C $(LIBMLX)/build -j4
+OBJ_PATH  = objs
+HEADER = includes
+SRC_PATH  = sources
+MLX = minilibx-linux
 
-%.o: %.c
-	@$(CC) $(CFLAGS) -o $@ -c $< $(HEADERS) && printf "Compiling: $(notdir $<)"
+### SOURCE FILES ###
+SOURCES = main.c \
+		  draw.c \
+		  ft_atoi.c \
+		  ft_split.c \
+		  get_next_line.c \
+		  get_next_line_utils.c \
+		  read_file.c \
+
+
+### OBJECTS ###
+
+SRCS = $(addprefix $(SRC_PATH)/,$(SOURCES))
+OBJS = $(addprefix $(OBJ_PATH)/,$(SOURCES:.c=.o))
+
+
+### RULES ###
+
+all: lib tmp $(NAME)
+
+lib:
+	@make -C $(MLX)
 
 $(NAME): $(OBJS)
-	@$(CC) $(OBJS) $(LIBS) $(HEADERS) -o $(NAME)
+	$(CC) $(FLAGS) -L $(MLX) -o $@ $^  -lmlx -lXext -lX11 -lm
+	@
+
+tmp:
+	@mkdir -p objs
+
+$(OBJ_PATH)/%.o: $(SRC_PATH)/%.c $(HEADER)/$(NAME).h
+	@$(CC) $(FLAGS) -c -o $@ $<
+	
 
 clean:
-	@rm -rf $(OBJS)
-	@rm -rf $(LIBMLX)/build
+	@rm -rf $(OBJ_PATH)
 
-fclean: clean
-	@rm -rf $(NAME)
+fclean:
+	@rm -rf $(OBJ_PATH)
+	@rm -f $(NAME)
+	
 
-re: clean all
+re: fclean
+	@$(MAKE) all -j
 
-.PHONY: all, clean, fclean, re, libml
+.PHONY: temporary, re, fclean, clean

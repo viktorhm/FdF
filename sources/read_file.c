@@ -6,11 +6,11 @@
 /*   By: vharatyk <vharatyk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 11:31:33 by vharatyk          #+#    #+#             */
-/*   Updated: 2023/12/09 18:31:31 by vharatyk         ###   ########.fr       */
+/*   Updated: 2023/12/09 23:15:44 by vharatyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/fdf.h"
+#include "../includes/fdf.h"
 
 
 // gcc *.c -Lmlx-linux -lmlx_Linux -Imlx-linux -lXext -lX11 -lm
@@ -21,8 +21,8 @@ int getSizeNb(char *ligne  )
 	int value = 0;
 	while(ligne[i])
 	{
-	if(ligne[i]>='0' && ligne[i]<='9' || ligne[i] >= 'a'
-	&& ligne[i] <= 'z' || ligne[i] >= 'A' && ligne[i] <= 'Z' )
+	if((ligne[i]>='0' && ligne[i]<='9') || (ligne[i] >= 'a'
+	&& ligne[i] <= 'z') || (ligne[i] >= 'A' && ligne[i] <= 'Z') )
 		if(ligne[i+1]==' ' || ligne[i+1]=='\n' || ligne[i+1]== '\0')
 			value++;
 	i++;
@@ -31,12 +31,10 @@ int getSizeNb(char *ligne  )
 }
 
 
-int get_size (char *file_name , int *height , int *width)
+int get_size (char *file_name , t_data *data)
 {
 	int fd;
 	char *line ;
-	*height= 0;
-	*width = 0;
 
 	fd  = open(file_name , O_RDONLY , 0 );
 	if(fd < 0)
@@ -45,16 +43,14 @@ int get_size (char *file_name , int *height , int *width)
 		exit(0);
 	}
 	line = get_next_line(fd);
-	*width = getSizeNb(line);
-	*height = *height+1;
+	data->width = getSizeNb(line);
+	data->height = data->height + 1;
+	while(get_next_line(fd))
+		data->height = data->height + 1;
+	close(fd);
 	free(line);
 	line = NULL ;
-	while(get_next_line(fd))
-	{
-		*height=*height+1;
-	}
-	close(fd);
-
+	return(0);
 }
 
 
@@ -72,10 +68,11 @@ int fild_tab( int *matrix ,char *line ,t_data *data)
 			data->max = matrix[i];
 		if(matrix[i] < data->min)
 			data->min =matrix[i];
-		//free(str[i]);
+		free(str[i]);
 		i++ ;
 	}
-
+	free(str);
+	return(0);
 }
 
 void read_file(char *file_name , t_data *data)
@@ -83,7 +80,7 @@ void read_file(char *file_name , t_data *data)
 	int i;
 	int fd ;
 	char *line;
-	get_size( file_name, &data->height, &data->width );
+	get_size( file_name, data );
 
 
 	data->matrix = (int **)malloc(sizeof(int*) * (data->height+ 1));

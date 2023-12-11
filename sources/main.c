@@ -1,6 +1,7 @@
 
 
-#include "includes/fdf.h"
+#include "../includes/fdf.h"
+
 
 void init_struct(t_data *data)
 {
@@ -8,19 +9,20 @@ void init_struct(t_data *data)
 	data->width = 0;
 	data->matrix = 0 ;
 	data->zoom = 20;
-	data->color =  0xffffff;
-	data->wx = 1000 ;
-	data->wy = 500 ;
+	data ->bits_per_pixel = 20 ;
+	data->wx = 1700 ;
+	data->wy = 900 ;
 	data->controlx = 50 ;
 	data->controly =50 ;
-	data->angle = 0.8;
+	data->anglex = 0.8;
+	data->angley =0.8;
 }
 
-
-int	mlxClose(int keycode, t_data *data)
+int	mlxClose(t_data *data)
 {
 	mlx_destroy_image(data->mlx, data->img);
 	mlx_destroy_window(data->mlx, data->win);
+	mlx_destroy_display(data->mlx);
 	return (0);
 }
 
@@ -31,7 +33,8 @@ int event(t_data *data)
 	draw(data);
 	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
 	mlx_destroy_image(data->mlx, data->img);
-	write(1,"e",1);
+	
+	return(0);
 }
 
 int control(int key , t_data *data)
@@ -49,9 +52,13 @@ int control(int key , t_data *data)
 	if(key == '=')
 		data->zoom += 2 ;
 	if(key == ']')
-		data->angle += 1 ;
+		data->anglex += 0.10 ;
 	if(key == '[')
-		data->angle -= 1 ;
+		data->anglex -= 0.10 ;
+	if(key == ',')
+		data->angley += 0.10 ;
+	if(key == '.')
+		data->angley -= 0.10 ;
 	if(key == 65307)
 		mlx_destroy_window(data->mlx, data->win);
 	else
@@ -80,11 +87,14 @@ int etat(t_data data)
 		printf("\n");
 		j++;
 	}
+	return(0);
 }
+
 
 int	main(int argc ,char *argv[])
 {
 	t_data data;
+	
 
 	if(argc != 2)
 	{
@@ -93,18 +103,18 @@ int	main(int argc ,char *argv[])
 	}
 
 	init_struct(&data);
-
 	read_file(argv[1] , &data);
-
 	etat(data);
 	data.mlx = mlx_init();
 	data.win = mlx_new_window(data.mlx, data.wx, data.wy , "FDF");
 	event(&data);
 	mlx_hook(data.win , 2 , 1L<<0 ,control,&data );
 	mlx_hook(data.win , 17 ,1L<<5 , mlxClose , &data);
-	mlx_loop(data.mlx);
 
-	printf("END ?");
+	mlx_loop(data.mlx);
+	//free(data.mlx);
+	//free(data.win);
+	//write(1,"END ?",5);
 
 	return(0);
 }
