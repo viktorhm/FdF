@@ -1,18 +1,20 @@
 ### COMPILATION ###
-CC      = gcc 
-FLAGS  = -Wall -Werror
+CC      = gcc
+CFLAGS  = -Wall -Werror -g
+CLINKS  = -lXext -lX11 -lm
 
 ### EXECUTABLE ###
 NAME   = fdf
 
 ### INCLUDES ###
 
-OBJ_PATH  = objs
 HEADER = includes
 SRC_PATH  = sources
 MLX = minilibx-linux
+LIBMLX = $(MLX)/libmlx.a
 
 ### SOURCE FILES ###
+
 SOURCES = main.c \
 		  draw.c \
 		  ft_atoi.c \
@@ -21,40 +23,31 @@ SOURCES = main.c \
 		  get_next_line_utils.c \
 		  read_file.c \
 
-
 ### OBJECTS ###
 
 SRCS = $(addprefix $(SRC_PATH)/,$(SOURCES))
-OBJS = $(addprefix $(OBJ_PATH)/,$(SOURCES:.c=.o))
+OBJS = $(SRCS:.c=.o)
 
 
 ### RULES ###
 
-all: lib tmp $(NAME)
+all: $(NAME)
 
-lib:
-	@make -C $(MLX)
+$(NAME): $(OBJS) $(LIBMLX)
+	$(CC) $(CFLAGS) -o $@ $^ $(CLINKS)
 
-$(NAME): $(OBJS)
-	$(CC) $(FLAGS) -L $(MLX) -o $@ $^  -lmlx -lXext -lX11 -lm
-	@
+$(LIBMLX):
+	make -C $(MLX)
 
-tmp:
-	@mkdir -p objs
-
-$(OBJ_PATH)/%.o: $(SRC_PATH)/%.c $(HEADER)/$(NAME).h
-	@$(CC) $(FLAGS) -c -o $@ $<
-	
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	@rm -rf $(OBJ_PATH)
+	$(RM) $(OBJS)
 
-fclean:
-	@rm -rf $(OBJ_PATH)
-	@rm -f $(NAME)
-	
+fclean: clean
+	$(RM) $(NAME)
 
-re: fclean
-	@$(MAKE) all -j
+re: fclean all
 
-.PHONY: temporary, re, fclean, clean
+.PHONY: re, fclean, clean

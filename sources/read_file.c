@@ -6,7 +6,7 @@
 /*   By: vharatyk <vharatyk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 11:31:33 by vharatyk          #+#    #+#             */
-/*   Updated: 2023/12/09 23:15:44 by vharatyk         ###   ########.fr       */
+/*   Updated: 2023/12/11 16:59:47 by vharatyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,10 @@ int getSizeNb(char *ligne  )
 	&& ligne[i] <= 'z') || (ligne[i] >= 'A' && ligne[i] <= 'Z') )
 		if(ligne[i+1]==' ' || ligne[i+1]=='\n' || ligne[i+1]== '\0')
 			value++;
+
 	i++;
 	}
+	free(ligne);
 	return(value);
 }
 
@@ -35,6 +37,7 @@ int get_size (char *file_name , t_data *data)
 {
 	int fd;
 	char *line ;
+	line = NULL;
 
 	fd  = open(file_name , O_RDONLY , 0 );
 	if(fd < 0)
@@ -45,8 +48,11 @@ int get_size (char *file_name , t_data *data)
 	line = get_next_line(fd);
 	data->width = getSizeNb(line);
 	data->height = data->height + 1;
-	while(get_next_line(fd))
+	while ((line = get_next_line(fd)))
+	{
 		data->height = data->height + 1;
+		free(line);
+	}
 	close(fd);
 	free(line);
 	line = NULL ;
@@ -60,6 +66,7 @@ int fild_tab( int *matrix ,char *line ,t_data *data)
 	int 	i;
 
 	i = 0 ;
+	str = NULL ;
 	str = ft_split(line , ' ');
 	while(str[i])
 	{
@@ -72,6 +79,7 @@ int fild_tab( int *matrix ,char *line ,t_data *data)
 		i++ ;
 	}
 	free(str);
+	//free(line);
 	return(0);
 }
 
@@ -83,11 +91,10 @@ void read_file(char *file_name , t_data *data)
 	get_size( file_name, data );
 
 
-	data->matrix = (int **)malloc(sizeof(int*) * (data->height+ 1));
+	data->matrix = (int **)malloc(sizeof(int*) * (data->height + 1));
 	i = 0;
-	while(i <= data->height)
+	while(i < data->height)
 		data ->matrix[i++] = (int*)malloc(sizeof(int) * (data->width + 1));
-
 
 	fd = open(file_name , O_RDONLY, 0);
 	i = 0;
@@ -96,11 +103,12 @@ void read_file(char *file_name , t_data *data)
 		line = get_next_line(fd);
 		fild_tab(data->matrix[i], line  , data);
 		free(line);
+		line = NULL ;
 		i++;
 		//printf("{%d}",data->max);
 	}
+	free(line);
 	data->matrix[i] = NULL ;
 	close(fd);
+	get_next_line(fd);
 }
-
-

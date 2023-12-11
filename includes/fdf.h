@@ -1,8 +1,8 @@
 #ifndef FDF_H
-# define FHF_H
+# define FDF_H
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 10
+#  define BUFFER_SIZE 100
 # endif
 
 # include <unistd.h>
@@ -27,7 +27,7 @@ typedef struct s_data
 	void	*img;
 	void	*addr;
 	int		zoom;
-	
+
 	int		max ;
 	int		min ;
 	int		wx;

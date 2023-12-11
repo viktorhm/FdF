@@ -6,15 +6,19 @@
 /*   By: vharatyk <vharatyk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/02 22:46:05 by vharatyk          #+#    #+#             */
-/*   Updated: 2023/12/10 17:15:20 by vharatyk         ###   ########.fr       */
+/*   Updated: 2023/12/11 13:32:23 by vharatyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
 
+float value_max (float a , float b)
+{
+	if(a>b)
+		return(a);
+	return(b);
+}
 
-
-#define MAX(a,b) (a>b ? a : b)
 
 void init_struct_cord(t_cord *cord)
 {
@@ -103,7 +107,7 @@ void bresenham(t_cord *cord , t_data *data)
 	x_step = cord->x2 - cord->x1 ;
 	y_step = cord->y2 - cord->y1 ;
 
-	max = MAX(abs(x_step),abs(y_step));
+	max = value_max(abs(x_step),abs(y_step));
 	x_step /= max;
 	y_step /= max;
 
