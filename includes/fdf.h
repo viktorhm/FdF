@@ -27,7 +27,7 @@ typedef struct s_data
 	void	*img;
 	void	*addr;
 	int		zoom;
-
+	int		z;
 	int		max ;
 	int		min ;
 	int		wx;

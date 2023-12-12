@@ -6,7 +6,7 @@
 /*   By: vharatyk <vharatyk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/02 22:46:05 by vharatyk          #+#    #+#             */
-/*   Updated: 2023/12/11 18:00:13 by vharatyk         ###   ########.fr       */
+/*   Updated: 2023/12/12 01:20:01 by vharatyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,19 @@ int	create_trgb(int t, int r, int g, int b)
 
 int	color( t_cord *cord, t_data *data )
 {
-	return (create_trgb(00, 100, 100, 100));
+	int r;
+	int g;
+	int b;
+	
+	r = 255;
+	g = 255;
+	b = 255;
+
+	g = (cord->z / data->zoom ) * 255 / data->max;
+	b = (cord->z1  /data->zoom ) * 255 / data->max;
+
+	
+	return (create_trgb(00, r, g, b));
 }
 
 void	my_mlx_pixel_put(t_data *data, t_cord *cord)
@@ -49,10 +61,9 @@ void	zoom(t_cord *cord, t_data *data )
 	cord->y1 *= data->zoom;
 	cord->x2 *= data->zoom;
 	cord->y2 *= data->zoom;
-	cord->z *= data->zoom;
-	cord->z1 *= data->zoom;
-	data->min *= data->zoom;
-	data->max *= data->zoom;
+	cord->z *= data->zoom / data->z;
+	cord->z1 *= data->zoom / data->z; 
+
 }
 
 void	isometrique(t_cord *cord, t_data *data)
