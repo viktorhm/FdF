@@ -1,6 +1,6 @@
 ### COMPILATION ###
-CC      = gcc
-CFLAGS  = -Wall -Werror -g
+CC      = cc
+CFLAGS  = -Wall  -Wextra -Werror -g
 CLINKS  = -lXext -lX11 -lm
 
 ### EXECUTABLE ###
@@ -22,6 +22,9 @@ SOURCES = main.c \
 		  get_next_line.c \
 		  get_next_line_utils.c \
 		  read_file.c \
+		  color_tools.c\
+		  control_tools.c\
+		  draw_tools.c\
 
 ### OBJECTS ###
 
