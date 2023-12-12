@@ -6,7 +6,7 @@
 /*   By: vharatyk <vharatyk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 18:22:33 by vharatyk          #+#    #+#             */
-/*   Updated: 2023/12/12 13:45:19 by vharatyk         ###   ########.fr       */
+/*   Updated: 2023/12/12 16:10:04 by vharatyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,5 @@ int	main(int argc, char *argv[])
 	mlx_destroy_display(data.mlx);
 	free(data.mlx);
 	free_matrix(&data);
-	write(1, "END ?", 5);
 	return (0);
 }

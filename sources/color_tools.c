@@ -6,7 +6,7 @@
 /*   By: vharatyk <vharatyk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 13:27:05 by vharatyk          #+#    #+#             */
-/*   Updated: 2023/12/12 13:33:01 by vharatyk         ###   ########.fr       */
+/*   Updated: 2023/12/12 14:18:42 by vharatyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	color( t_cord *cord, t_data *data )
 	r = 255;
 	g = 255;
 	b = 255;
-	if (data->max > 1)
+	if (data->max != 0)
 	{
 		g = (cord->z / data->zoom) * 255 / data->max;
 		b = (cord->z1 / data->zoom) * 255 / data->max;
