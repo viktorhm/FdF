@@ -6,7 +6,7 @@
 /*   By: vharatyk <vharatyk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 11:31:33 by vharatyk          #+#    #+#             */
-/*   Updated: 2023/12/11 19:02:19 by vharatyk         ###   ########.fr       */
+/*   Updated: 2023/12/12 18:28:55 by vharatyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ int	get_size(char *file_name, t_data *data)
 		exit(0);
 	}
 	line = get_next_line(fd);
+	if(!line)
+
 	data->width = get_size_nb(line);
 	data->height = data->height + 1;
 	while (1)
