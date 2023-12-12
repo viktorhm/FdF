@@ -78,6 +78,7 @@ int		fild_tab( int *matrix, char *line, t_data *data);
 void	read_file(char *file_name, t_data *data);
 char	**ft_split(char const *s, char c);
 int		ft_atoi(const char *str );
+void	msg_error(void);
 //####### drew ######## //
 float	value_max(float a, float b);
 void	init_struct_cord(t_cord *cord);

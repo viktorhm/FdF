@@ -12,6 +12,12 @@
 
 #include "../includes/fdf.h"
 
+void	msg_error(void)
+{
+	write(1, "error_load-fichier", 19);
+	exit(0);
+}
+
 int	get_size_nb(char *ligne)
 {
 	int	i;
@@ -42,17 +48,10 @@ int	get_size(char *file_name, t_data *data)
 	line = NULL;
 	fd = open(file_name, O_RDONLY, 0);
 	if (fd < 0)
-	{
-		write(1, "erreur_load-fichier", 20);
-		exit(0);
-	}
+		msg_error();
 	line = get_next_line(fd);
-	if(!line)
-	{
-		write(1, "erreur_load-fichier", 20);
-		exit(0);
-	}
-
+	if (!line)
+		msg_error();
 	data->width = get_size_nb(line);
 	data->height = data->height + 1;
 	while (1)
