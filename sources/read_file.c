@@ -48,6 +48,10 @@ int	get_size(char *file_name, t_data *data)
 	}
 	line = get_next_line(fd);
 	if(!line)
+	{
+		write(1, "erreur_load-fichier", 20);
+		exit(0);
+	}
 
 	data->width = get_size_nb(line);
 	data->height = data->height + 1;
