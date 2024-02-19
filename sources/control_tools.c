@@ -6,7 +6,7 @@
 /*   By: vharatyk <vharatyk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 13:42:56 by vharatyk          #+#    #+#             */
-/*   Updated: 2023/12/12 13:58:45 by vharatyk         ###   ########.fr       */
+/*   Updated: 2024/02/19 15:19:31 by vharatyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,15 @@ void	init_struct(t_data *data)
 	data->matrix = NULL ;
 	data->zoom = 20;
 	data ->bits_per_pixel = 20 ;
-	data->wx = 1700 ;
-	data->wy = 900 ;
-	data->controlx = 50 ;
-	data->controly = 50 ;
+	data->wx = 1700;
+	data->wy = 900;
+	data->controlx = 50;
+	data->controly = 50;
 	data->anglex = 0.8;
 	data->angley = 0.8;
-	data->max = 0 ;
+	data->max = 0;
 	data->min = 0;
-	data->z = 1 ;
+	data->z = 1;
 }
 
 int	ft_close(t_data *data)
@@ -46,9 +46,9 @@ void	control_base(int key, t_data *data)
 		data->controly += 10;
 	if (key == 'd')
 		data->controlx += 10;
-	if (key == '-')
+	if (key == '-' && data->zoom > 2)
 		data->zoom -= 2 ;
-	if (key == '=')
+	if (key == '=' && data->zoom < 40)
 		data->zoom += 2 ;
 }
 
@@ -56,19 +56,18 @@ int	control(int key, t_data *data)
 {
 	control_base(key, data);
 	if (key == ']')
-		data->anglex += 0.10 ;
+		data->anglex += 0.03 ;
 	if (key == '[')
-		data->anglex -= 0.10 ;
+		data->anglex -= 0.03 ;
 	if (key == ',')
-		data->angley += 0.10 ;
+		data->angley += 0.03 ;
 	if (key == '.')
-		data->angley -= 0.10 ;
+		data->angley -= 0.03 ;
 	if (key == 65307)
 		ft_close(data);
-	if (key == 'q')
-		if (data->z > 1)
-			data->z -= 1;
-	if (key == 'e')
+	if (key == 'q' && data->z > 1)
+		data->z -= 1;
+	if (key == 'e' && data->z < 7)
 		data->z += 1;
 	event(data);
 	return (0);

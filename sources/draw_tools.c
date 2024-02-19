@@ -6,7 +6,7 @@
 /*   By: vharatyk <vharatyk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 13:30:34 by vharatyk          #+#    #+#             */
-/*   Updated: 2023/12/21 08:49:35 by vharatyk         ###   ########.fr       */
+/*   Updated: 2024/02/19 15:20:25 by vharatyk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,21 @@ void	zoom(t_cord *cord, t_data *data )
 
 void	isometrique(t_cord *cord, t_data *data)
 {
-	double		tx1;
-	double		tx2;
+	double	tx1;
+	double	ty1;
+	double	tx2;
+	double	ty2;
 
 	tx1 = cord->x1;
+	ty1 = cord->y1;
 	tx2 = cord->x2;
-	cord->x1 = tx1 * cos(data->angley) - cord->y1 * sin(data->anglex);
-	cord->y1 = (tx1 * sin(data->anglex) + cord->y1 * cos(data->anglex))
-		- cord->z;
-	cord->x2 = tx2 * cos(data->angley) - cord->y2 * sin(data->anglex);
-	cord->y2 = (tx2 * sin(data->anglex) + cord->y2 * cos(data->anglex))
-		- cord->z1;
+	ty2 = cord->y2;
+	cord->x1 = tx1 * cos(data->angley) - ty1 * sin(data->angley);
+	cord->y1 = (tx1 * sin(data->angley) + ty1 * cos(data->angley))
+		* cos(data->anglex) - cord->z * sin(data->anglex);
+	cord->x2 = tx2 * cos(data->angley) - ty2 * sin(data->angley);
+	cord->y2 = (tx2 * sin(data->angley) + ty2 * cos(data->angley))
+		* cos(data->anglex) - cord->z1 * sin(data->anglex);
 }
 
 void	mouve(t_cord *cord, t_data *data)
