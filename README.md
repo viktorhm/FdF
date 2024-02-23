@@ -6,17 +6,24 @@
 <p>
 	the project ,
 </p>
-	<li></li><h2>build and executing</h2></li>
+	<li><h2>build and executing</h2></li>
 <br>
-<ul>
+	<ul>
 	<li>clone repo</li>
-		```sh $> git clone git@github.com:viktorhm/FdF.git <br> cd Fdf```
-
+	```sh
+	$> git clone git@github.com:viktorhm/FdF.git <br> cd Fdf
+	```
+		<br>
 	<li>add submodule</li>
-		```sh $> git submodule init
-		git submodule update
-	<li>why work</li>
+		```
+		sh $> git submodule init
+		git submodule update ```
+		<br>
+	<li>compilation</li>
 		```sh $> make```
+		<br>
+	<li>how work</li>
+		``` sh $> ./fdf maps/42.fdf ```
 </ul>
 
 </ul>
