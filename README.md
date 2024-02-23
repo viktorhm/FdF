@@ -7,7 +7,6 @@
 	the project ,
 </p>
 	<h2>build and executing</h2>
-<br>
 
 	- clone repo
 	```sh
@@ -46,5 +45,3 @@
 	> - `q` :-
 	> - `e` :+
 
-
-</ul>
