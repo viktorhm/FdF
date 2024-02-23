@@ -15,8 +15,7 @@
 	```
 		<br>
 	<li>add submodule</li>
-		```
-		sh $> git submodule init
+		```sh $> git submodule init
 		git submodule update ```
 		<br>
 	<li>compilation</li>
@@ -25,5 +24,24 @@
 	<li>how work</li>
 		``` sh $> ./fdf maps/42.fdf ```
 </ul>
+
+	<li><h2>commande</h2></li>
+	### direction
+	> - `w`: up
+	> - `s`: down
+	> - `a`: right
+	> - `d`: left
+	### rotation
+	> - `{`: angle y+
+	> - `}`: angle y-
+	> - `>`: angle x+
+	> - `<`: angle x-
+	### zoom
+	> - `-`: -
+	> - `+`: +
+	### level
+	> - `q` : -
+	> - `e` : +
+
 
 </ul>
