@@ -1,12 +1,12 @@
 
 <h1 align = center>FDF</h1>
 
-<ul>
-	<li><h2>introduction</h2></li>
+
+	<h2>introduction</h2>
 <p>
 	the project ,
 </p>
-	<li><h2>build and executing</h2></li>
+	<h2>build and executing</h2>
 <br>
 	<ul>
 	<li>clone repo</li>
@@ -23,9 +23,9 @@
 		<br>
 	<li>how work</li>
 		``` sh $> ./fdf maps/42.fdf ```
-</ul>
+	</ul>
 
-	<li><h2>commande</h2></li>
+	<h2>commande</h2>
 	### direction
 	> - `w`: up
 	> - `s`: down
