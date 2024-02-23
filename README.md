@@ -3,27 +3,27 @@
 
 
 <h2>introduction</h2>
-<p>
-	the project ,
-</p>
+
 	<h2>build and executing</h2>
 
-	- clone repo
+	- clone repo :
 	```sh
 	$> git clone git@github.com:viktorhm/FdF.git  cd Fdf
 	```
-
-	-add submodule
+	-add submodule :
 		```sh
-		$> git submodule init git submodule update ```
-
-	-compilation
-		```sh
-		$> make```
-
-	-how work
+		$> git submodule init git submodule update
 		```
-		sh $> ./fdf maps/42.fdf ```
+
+	-compilation :
+		```sh
+		$> make
+		```
+
+	-how work :
+		```
+		sh $> ./fdf maps/42.fdf
+		```
 
 
 	<h2>commande</h2>
