@@ -2,30 +2,33 @@
 <h1 align = center>FDF</h1>
 
 
-	<h2>introduction</h2>
+<h2>introduction</h2>
 <p>
 	the project ,
 </p>
 	<h2>build and executing</h2>
 <br>
-	<ul>
-	<li>clone repo</li>
+
+	- clone repo
 	```sh
-	$> git clone git@github.com:viktorhm/FdF.git <br> cd Fdf
+	$> git clone git@github.com:viktorhm/FdF.git  cd Fdf
 	```
-		<br>
-	<li>add submodule</li>
-		```sh $> git submodule init
-		git submodule update ```
-		<br>
-	<li>compilation</li>
-		```sh $> make```
-		<br>
-	<li>how work</li>
-		``` sh $> ./fdf maps/42.fdf ```
-	</ul>
+
+	-add submodule
+		```sh
+		$> git submodule init git submodule update ```
+
+	-compilation
+		```sh
+		$> make```
+
+	-how work
+		```
+		sh $> ./fdf maps/42.fdf ```
+
 
 	<h2>commande</h2>
+
 	### direction
 	> - `w`: up
 	> - `s`: down
@@ -40,8 +43,8 @@
 	> - `-`: -
 	> - `+`: +
 	### level
-	> - `q` : -
-	> - `e` : +
+	> - `q` :-
+	> - `e` :+
 
 
 </ul>
